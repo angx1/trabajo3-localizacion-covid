@@ -1,10 +1,8 @@
 package com.practica.genericas;
 
-
 public class Coordenada {
 	private float latitud, longitud;
 
-	
 	public Coordenada() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -52,9 +50,8 @@ public class Coordenada {
 		Coordenada other = (Coordenada) obj;
 		if (Float.floatToIntBits(latitud) != Float.floatToIntBits(other.latitud))
 			return false;
-		if (Float.floatToIntBits(longitud) != Float.floatToIntBits(other.longitud))
-			return false;
-		return true;
+
+		return Float.floatToIntBits(longitud) == Float.floatToIntBits(other.longitud);
 	}
-	
+
 }
