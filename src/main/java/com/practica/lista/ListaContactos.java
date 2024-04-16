@@ -28,10 +28,6 @@ public class ListaContactos {
 		}
 	}
 
-	/*
-	 * Insertamos en la lista de coordenadas, si ya existe la coordenada,
-	 * incrementamos el número de personas
-	 */
 	private void insertarEnListaCoordenadas(NodoTemporal aux, PosicionPersona p) {
 		NodoPosicion npActual = aux.getListaCoordenadas();
 		NodoPosicion npAnt = null;
@@ -56,9 +52,6 @@ public class ListaContactos {
 		}
 	}
 
-	/*
-	 * Insertamos un nuevo nodo temporal en la lista de nodos temporales
-	 */
 	private void insertarNuevoNodoTemporal(PosicionPersona p, NodoTemporal ant, NodoTemporal aux) {
 		NodoTemporal nuevo = new NodoTemporal();
 		nuevo.setFecha(p.getFechaPosicion());
