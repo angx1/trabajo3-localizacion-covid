@@ -1,6 +1,5 @@
 package com.practica.ems.covid;
 
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -29,7 +28,6 @@ public class ContactosCovid {
 	private Localizacion localizacion;
 	private ListaContactos listaContactos;
 	private static final Logger LOGGER = Logger.getLogger(ContactosCovid.class.getName());
-
 
 	public ContactosCovid() {
 		this.poblacion = new Poblacion();
@@ -95,15 +93,15 @@ public class ContactosCovid {
 	public void loadDataFile(String fichero, boolean reset) {
 		File archivo = new File(fichero);
 		try (FileReader fr = new FileReader(archivo);
-			 BufferedReader br = new BufferedReader(fr)) {
+				BufferedReader br = new BufferedReader(fr)) {
 
 			if (reset) {
 				resetData();
 			}
 			processFileData(br);
 
-		} catch (IOException | EmsInvalidTypeException | EmsInvalidNumberOfDataException |
-				 EmsDuplicateLocationException | EmsDuplicatePersonException e) {
+		} catch (IOException | EmsInvalidTypeException | EmsInvalidNumberOfDataException | EmsDuplicateLocationException
+				| EmsDuplicatePersonException e) {
 			LOGGER.log(Level.SEVERE, "Error processing file: " + fichero, e);
 		}
 	}
@@ -114,7 +112,8 @@ public class ContactosCovid {
 		this.listaContactos = new ListaContactos();
 	}
 
-	private void processFileData(BufferedReader br) throws IOException, EmsInvalidTypeException, EmsInvalidNumberOfDataException, EmsDuplicateLocationException, EmsDuplicatePersonException {
+	private void processFileData(BufferedReader br) throws IOException, EmsInvalidTypeException,
+			EmsInvalidNumberOfDataException, EmsDuplicateLocationException, EmsDuplicatePersonException {
 		String data;
 		while ((data = br.readLine()) != null) {
 			String[] datas = dividirEntrada(data.trim());
@@ -124,7 +123,8 @@ public class ContactosCovid {
 		}
 	}
 
-	private void processLineData(String linea) throws EmsInvalidTypeException, EmsInvalidNumberOfDataException, EmsDuplicateLocationException, EmsDuplicatePersonException {
+	private void processLineData(String linea) throws EmsInvalidTypeException, EmsInvalidNumberOfDataException,
+			EmsDuplicateLocationException, EmsDuplicatePersonException {
 		String[] datos = dividirLineaData(linea);
 		if (!datos[0].equals("PERSONA") && !datos[0].equals("LOCALIZACION")) {
 			throw new EmsInvalidTypeException();
@@ -218,7 +218,7 @@ public class ContactosCovid {
 		persona.setEmail(data[4]);
 		persona.setDireccion(data[5]);
 		persona.setCp(data[6]);
-		persona.setFechaNacimiento(parsearFecha(data[7]));
+		persona.setFechaNacimiento(FechaHora.parsearFecha(data[7]));
 
 		return persona;
 	}
@@ -235,7 +235,7 @@ public class ContactosCovid {
 				fecha = data[i];
 			} else if (i == 3) {
 				hora = data[i];
-				posicionPersona.setFechaPosicion(parsearFecha(fecha, hora));
+				posicionPersona.setFechaPosicion(FechaHora.parsearFecha(fecha, hora));
 			} else if (i == 4) {
 				latitud = Float.parseFloat(s);
 			} else {
@@ -246,27 +246,4 @@ public class ContactosCovid {
 		return posicionPersona;
 	}
 
-	private FechaHora parsearFecha (String fecha) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
-		return fechaHora;
-	}
-
-	private FechaHora parsearFecha (String fecha, String hora) {
-		int dia, mes, anio;
-		String[] valores = fecha.split("\\/");
-		dia = Integer.parseInt(valores[0]);
-		mes = Integer.parseInt(valores[1]);
-		anio = Integer.parseInt(valores[2]);
-		int minuto, segundo;
-		valores = hora.split("\\:");
-		minuto = Integer.parseInt(valores[0]);
-		segundo = Integer.parseInt(valores[1]);
-		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
-		return fechaHora;
-	}
 }

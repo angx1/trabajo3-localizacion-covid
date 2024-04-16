@@ -2,10 +2,10 @@ package com.practica.genericas;
 
 import java.time.LocalDateTime;
 
-public class FechaHora implements Comparable<FechaHora>{
+public class FechaHora implements Comparable<FechaHora> {
 	public class Fecha {
 		private int dia, mes, anio;
-		 
+
 		public Fecha(int dia, int mes, int anio) {
 			super();
 			this.dia = dia;
@@ -39,11 +39,9 @@ public class FechaHora implements Comparable<FechaHora>{
 
 		@Override
 		public String toString() {
-			String cadena = String.format("%2d/%02d/%4d",dia,mes,anio);
+			String cadena = String.format("%2d/%02d/%4d", dia, mes, anio);
 			return cadena;
 		}
-		
-		
 
 	}
 
@@ -74,15 +72,14 @@ public class FechaHora implements Comparable<FechaHora>{
 
 		@Override
 		public String toString() {
-			return String.format("%02d:%02d", hora,minuto);
+			return String.format("%02d:%02d", hora, minuto);
 		}
-		
 
 	}
 
 	Fecha fecha;
 	Hora hora;
-	
+
 	public FechaHora(Fecha fecha, Hora hora) {
 		super();
 		this.fecha = fecha;
@@ -136,13 +133,36 @@ public class FechaHora implements Comparable<FechaHora>{
 
 	@Override
 	public int compareTo(FechaHora o) {
-		LocalDateTime dateTime1= LocalDateTime.of(this.getFecha().getAnio(), this.getFecha().getMes(), this.getFecha().getDia(), 
+		LocalDateTime dateTime1 = LocalDateTime.of(this.getFecha().getAnio(), this.getFecha().getMes(),
+				this.getFecha().getDia(),
 				this.getHora().getHora(), this.getHora().getMinuto());
-		LocalDateTime dateTime2= LocalDateTime.of(o.getFecha().getAnio(), o.getFecha().getMes(), o.getFecha().getDia(), 
+		LocalDateTime dateTime2 = LocalDateTime.of(o.getFecha().getAnio(), o.getFecha().getMes(), o.getFecha().getDia(),
 				o.getHora().getHora(), o.getHora().getMinuto());
-		
+
 		return dateTime1.compareTo(dateTime2);
 	}
-	
-	
+
+	public static FechaHora parsearFecha(String fecha, String hora) {
+		int dia, mes, anio;
+		String[] valores = fecha.split("\\/");
+		dia = Integer.parseInt(valores[0]);
+		mes = Integer.parseInt(valores[1]);
+		anio = Integer.parseInt(valores[2]);
+		int minuto, segundo;
+		valores = hora.split("\\:");
+		minuto = Integer.parseInt(valores[0]);
+		segundo = Integer.parseInt(valores[1]);
+		FechaHora fechaHora = new FechaHora(dia, mes, anio, minuto, segundo);
+		return fechaHora;
+	}
+
+	public static FechaHora parsearFecha(String fecha) {
+		int dia, mes, anio;
+		String[] valores = fecha.split("\\/");
+		dia = Integer.parseInt(valores[0]);
+		mes = Integer.parseInt(valores[1]);
+		anio = Integer.parseInt(valores[2]);
+		FechaHora fechaHora = new FechaHora(dia, mes, anio, 0, 0);
+		return fechaHora;
+	}
 }
